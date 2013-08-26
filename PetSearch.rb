@@ -32,14 +32,20 @@ class Pet
   end
 
   def self.load_breeds(pet_instance)
-    pet_instance.dog[:breeds] = breed_list(pet_instance.dog[:name])['petfinder']['breeds']['breed'].map { |b|
+    pet_instance[:breeds] = breed_list(pet_instance[:name])['petfinder']['breeds']['breed'].map { |b|
         b["$t"]
-
     }
+
     binding.pry
   end
 
 end
 
-p = Pet.new
-Pet.load_breeds(p)
+def breeds
+  p = Pet.new
+  Pet.load_breeds(p.bird)
+end
+
+
+
+#breeds
