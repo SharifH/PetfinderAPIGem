@@ -53,14 +53,7 @@ class PetClient
 
   def self.search_listings(pet, options={})
     animal = (pet[:name].nil?) ? false : pet[:name]
-    # if options[:breeds].nil? && options[:breeds].empty?
-    #   breed_flag = false
-    # elsif options[:breeds].nil? || options[:breeds].empty?
-    #   breed_flag = false
-    # else
-    #   breed_flag = true
-      breeds = (options[:breeds].nil? || options[:breeds].empty?) ? "" : options[:breeds]
-    #end
+    breeds = (options[:breeds].nil? || options[:breeds].empty?) ? "" : options[:breeds]
     size = options[:size].nil? ? "" : options[:size]
     sex = options[:sex].nil? ? "" : options[:sex]
     location = options[:location].nil? ? "" : options[:location]
@@ -69,12 +62,9 @@ class PetClient
     count = options[:count].nil? ? "" : options[:count]
     result_set = []
 
-
     # this is a custom option not supported by API
     distance = options[:distance].nil? ? "" : options[:distance]
     pure = options[:pure].nil? ? "" : options[:pure]
-    #
-    # if animal && breed_flag && size && sex && location && age && offset && count
       if breeds
         breeds.each { |breed|
           search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&breed=#{breed}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
@@ -86,66 +76,6 @@ class PetClient
         result_set << build_url(search_string)
         binding.pry
       end
-    # elsif animal && breed_flag && location && count && (!offset && !age && !size)
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&location=#{location}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    # elsif animal && breed_flag && location && offset && count && (!age && !size)
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&offset=#{offset}&location=#{location}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    # elsif animal && breed_flag && location && offset && (!count && !age && !size)
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&offset=#{offset}&location=#{location}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    # elsif animal && breed_flag && location && age && offset && (!count && !size)
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&age=#{age}&offset=#{offset}&location=#{location}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    # elsif animal && breed_flag && location && age && count && (!offset && !size)
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&age=#{age}&location=#{location}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    #       binding.pry
-    # elsif animal && breed_flag && location && age && offset && !size
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&age=#{age}&offset=#{offset}&location=#{location}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    # elsif animal && breed_flag && location && age && offset && size && !count
-    #       breeds.each { |breed|
-    #         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&breed=#{breed}&age=#{age}&size=#{size}&offset=#{offset}&location=#{location}&format=json&token=#{@@token_hash[:token]}"
-    #         result_set << build_url(search_string)
-    #       }
-    # elsif animal && size && sex && location && age && offset && count
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # elsif animal && sex && location && age && offset && count
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # elsif animal && location && age && offset && count
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # elsif animal && age && offset && count
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # elsif animal && location && offset && count
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&location=#{location}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # elsif animal && location && count
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&location=#{location}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # elsif animal && location
-    #   search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&location=#{location}&format=json&token=#{@@token_hash[:token]}"
-    #   result_set << build_url(search_string)
-    # else
-    #   result_set << "invalid request"
-    # end
 
   end
 
