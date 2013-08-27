@@ -45,16 +45,23 @@ class PetClient
   end
 
   ## DRY-ish method for API lookup
-  def self.build_url(search_string, random=nil)
+  def self.build_url(search_string, random=nil, id=nil)
     sig = Digest::MD5.hexdigest(search_string)
     partial_string = search_string.scan(/key.*/)[0]
-    if random
+    if random && id.nil? == true
       url = "http://api.petfinder.com/pet.getRandom?"+ partial_string+"&sig=#{sig}"
-    else
+    elsif !random && id.nil? == true
       url = "http://api.petfinder.com/pet.find?"+ partial_string+"&sig=#{sig}"
+    else
+      url = "http://api.petfinder.com/pet.get?"+ partial_string+"&sig=#{sig}"
     end
     updated_url = URI.encode(url)
     JSON.parse(open(updated_url.strip).read)
+  end
+
+  def self.get_pet(id)
+    search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&id=#{id}&format=json&token=#{@@token_hash[:token]}"
+    result = build_url(search_string, nil, id)
   end
 
   def self.search_listings(pet, options={})
@@ -93,7 +100,6 @@ class PetClient
         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&output=full&format=json&token=#{@@token_hash[:token]}"
         result_set << build_url(search_string)
       end
-      binding.pry
     end
   end
 

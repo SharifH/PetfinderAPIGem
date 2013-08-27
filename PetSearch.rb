@@ -38,7 +38,7 @@ options[:age] = 'Baby'
 # options[:breeds] << "chihuahua"
 #options[:size] = "S"
 options[:random] = false
-PetClient.search_listings(p.dog, options)
-
+#PetClient.search_listings(p.dog, options)
+PetClient.get_pet(27049255)
 
 
