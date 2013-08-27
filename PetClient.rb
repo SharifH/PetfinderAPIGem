@@ -37,16 +37,22 @@ class PetClient
     result = JSON.parse(open(updated_url.strip).read)
   end
 
+  ##load all the breeds
   def self.load_breeds(pet)
     pet[:breeds] = breed_list(pet[:name])['petfinder']['breeds']['breed'].map { |b|
         b["$t"]
     }
   end
 
-  def self.build_url(search_string)
+  ## DRY-ish method for API lookup
+  def self.build_url(search_string, random=nil)
     sig = Digest::MD5.hexdigest(search_string)
     partial_string = search_string.scan(/key.*/)[0]
-    url = "http://api.petfinder.com/pet.find?"+ partial_string+"&sig=#{sig}"
+    if random
+      url = "http://api.petfinder.com/pet.getRandom?"+ partial_string+"&sig=#{sig}"
+    else
+      url = "http://api.petfinder.com/pet.find?"+ partial_string+"&sig=#{sig}"
+    end
     updated_url = URI.encode(url)
     JSON.parse(open(updated_url.strip).read)
   end
@@ -60,23 +66,35 @@ class PetClient
     age = options[:age].nil? ? "" : options[:age]
     offset = options[:offset].nil? ? "" : options[:offset]
     count = options[:count].nil? ? "" : options[:count]
+    random = (options[:random].nil? || options[:random]==false) ? false : true
     result_set = []
 
     # this is a custom option not supported by API
     distance = options[:distance].nil? ? "" : options[:distance]
     pure = options[:pure].nil? ? "" : options[:pure]
-      if breeds
-        breeds.each { |breed|
-          search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&breed=#{breed}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-          result_set << build_url(search_string)
-          binding.pry
-        }
-      else
-        search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&format=json&token=#{@@token_hash[:token]}"
-        result_set << build_url(search_string)
-        binding.pry
-      end
 
+    ### must do loops if breed param
+    if breeds && breeds!=""
+      breeds.each { |breed|
+        ## must have separate random search because do not want to pass in parameters that will break api call, even if empty strings
+        if random
+         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&breed=#{breed}&sex=#{sex}&location=#{location}&output=full&format=json&token=#{@@token_hash[:token]}"
+         result_set << build_url(search_string, random)
+        else
+         search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&breed=#{breed}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&output=full&format=json&token=#{@@token_hash[:token]}"
+         result_set << build_url(search_string)
+       end
+      }
+    else
+      if random
+        search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&sex=#{sex}&location=#{location}&output=full&format=json&token=#{@@token_hash[:token]}"
+        result_set << build_url(search_string, random)
+      else
+        search_string = "#{ENV['PET_SECRET']}key=#{ENV['PET_KEY']}&animal=#{animal}&size=#{size}&sex=#{sex}&location=#{location}&age=#{age}&offset=#{offset}&count=#{count}&output=full&format=json&token=#{@@token_hash[:token]}"
+        result_set << build_url(search_string)
+      end
+      binding.pry
+    end
   end
 
 end
