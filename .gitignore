@@ -1,3 +1,3 @@
-.env
-.gemspec
-.gem
+*.env
+*.gemspec
+*.gem
