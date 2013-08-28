@@ -23,22 +23,5 @@ class Pet
 
 end
 
-#method to get breeds
-  # p = Pet.new
-  # PetClient.get_token
-  # PetClient.load_breeds(p.cat)
-  # puts p.cat[:breeds]
-p = Pet.new
-options = Hash.new
-PetClient.get_token
-options[:location] = 94123
-#options[:count] =  5
-options[:age] = 'Baby'
-# options[:breeds] = []
-# options[:breeds] << "chihuahua"
-#options[:size] = "S"
-options[:random] = false
-#PetClient.search_listings(p.dog, options)
-PetClient.get_pet(27049255)
 
 

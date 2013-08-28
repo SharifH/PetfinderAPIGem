@@ -25,7 +25,7 @@ class PetClient
     result = Nokogiri::XML(open(updated_url.strip).read)
     @@token_hash[:token] = result.xpath("//auth//token/text()").text.strip
     parsed_date = Time.at(result.xpath("//auth/expires/text()").text.strip.to_i)
-    @@token_hash[:expires] = parsed_date.strftime('%a %d %b %Y %I:%M:%S %p')
+    @@token_hash[:expires] = Time.parse(parsed_date.strftime('%a %d %b %Y %I:%M:%S %p'))
   end
 
 
