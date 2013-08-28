@@ -4,9 +4,9 @@ require 'digest/md5'
 require 'pry'
 require 'nokogiri'
 require 'date'
-require './PetClient'
+require 'petsearch/PetClient'
 
-class Pet
+class PetSearch
   attr_accessor :dog, :cat, :bird, :reptile, :horse, :pig, :barnyard, :smallfurry
 
   def initialize
