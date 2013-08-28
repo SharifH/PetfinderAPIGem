@@ -1,7 +1,6 @@
 require 'json'
 require 'open-uri'
 require 'digest/md5'
-require 'pry'
 require 'nokogiri'
 require 'date'
 
