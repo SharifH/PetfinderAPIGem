@@ -4,7 +4,7 @@ PetfinderAPIGem
 ##Instructions for PetFinder Gem
 Always get a new token.  Tokens expire after about 60 minutes.  So you can check to see if your existing token if valid by `PetClient.token_hash[:expires] > Time.now + 3600` or, simply get a new token with `PetClient.get_token`, which you have to do anyway upon first instantiating a call.
 
-*** <bold> IMPORTANT </bold> *** You must have an ENV variable set up with PET_KEY and PET_SECRET in the root of your app.  This gem requires the use of Foreman. If you want to hardcode your keys, think twice. Think thrice, but always play nice.
+*** <bold> IMPORTANT </bold> *** You must have an ENV variable set up with PET_KEY and PET_SECRET in the root of your app for development purposes.  This gem requires the use of Foreman. If you want to hardcode your keys, think twice. Think thrice, but always play nice.  One deployed to Heroku, then just set up Heroku config with the keys.
 
 There are two classes, `PetSearch` and `PetClient`.
 
