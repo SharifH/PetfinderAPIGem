@@ -14,7 +14,7 @@ You'll need to create a new PetSearch instance for this gem to work.  Each insta
 * Dog, cat, bird, reptile, horse, pig, barnyard, smallfurry
 
 So, first create your new instance with `p = PetSearch.new`.  Great, now you can do p.dog and p.cat, etc.  Each instance variable has a hash containing a name and an appty array for breeds.  So, let's say you want to populate all the cat breeds. One line does it . . .
-```PetClient.load_breeds(p.cat)```
+`PetClient.load_breeds(p.cat)`
 Now p.cat[:breeds] contains the entire list of cat breeds.
 
 ###PetClient
